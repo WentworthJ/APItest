@@ -1,4 +1,4 @@
-const API_BASE = "https://hw4-api-todo.onrender.com/api";
+const API_BASE = "http://localhost:3000";
 
 function setCookie(name, value, days = 1) {
     const expires = new Date(Date.now() + days * 864e5).toUTCString();
@@ -14,7 +14,7 @@ function deleteCookie(name) {
 }
 
 async function registerUser(username, password) {
-    const res = await fetch(`${API_BASE}/users/register`, {
+    const res = await fetch(`${API_BASE}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -23,7 +23,7 @@ async function registerUser(username, password) {
 }
 
 async function loginUser(username, password) {
-    const res = await fetch(`${API_BASE}/users/login`, {
+    const res = await fetch(`${API_BASE}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
