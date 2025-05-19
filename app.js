@@ -78,19 +78,36 @@ async function deleteTodo(id) {
 function renderTodos(todos) {
     const list = document.getElementById('todo-list');
     list.innerHTML = '';
+
     todos.forEach(todo => {
         const div = document.createElement('div');
         div.className = 'todo-item';
         if (todo.completed) div.classList.add('completed');
-        div.innerHTML = `
-            <strong>${todo.title}</strong> - ${todo.description} <br>
-            <button onclick="markComplete('${todo._id}', ${todo.completed})">${todo.completed ? 'Unmark' : 'Complete'}</button>
-            <button onclick="editTodo('${todo._id}', '${todo.title}', '${todo.description}', ${todo.completed})">Edit</button>
-            <button onclick="deleteTodoItem('${todo._id}')">Delete</button>
-        `;
+
+        const content = document.createElement('div');
+        content.innerHTML = `<strong>${todo.title}</strong> - ${todo.description}<br>`;
+        div.appendChild(content);
+
+        const completeBtn = document.createElement('button');
+        completeBtn.textContent = todo.completed ? 'Unmark' : 'Complete';
+        completeBtn.addEventListener('click', () => markComplete(todo.id, todo.completed));
+
+        const editBtn = document.createElement('button');
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', () => editTodo(todo.id, todo.title, todo.description, todo.completed));
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', () => deleteTodoItem(todo.id));
+
+        div.appendChild(completeBtn);
+        div.appendChild(editBtn);
+        div.appendChild(deleteBtn);
+
         list.appendChild(div);
     });
 }
+
 
 async function refreshTodos() {
     const todos = await fetchTodos();
